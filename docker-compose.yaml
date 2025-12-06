@@ -1,0 +1,22 @@
+---
+# Test docker-compose for nut-snmp image
+# Usage: docker-compose up --build
+services:
+  nut-snmp:
+    build: .
+    container_name: nut-snmp-test
+    environment:
+      NAME: apc
+      DESCRIPTION: "APC UPS Main"
+      SERVER: cr-ups-main.codelooks.com
+      DRIVER: snmp-ups
+      SNMP_COMMUNITY: public
+      SNMP_VERSION: v2c
+      POLLFREQ: "15"
+      MAXAGE: "25"
+      API_USER: upsmon
+      SECRET: secret
+    ports:
+      - "3493:3493"
+      - "6543:6543"
+    restart: unless-stopped
