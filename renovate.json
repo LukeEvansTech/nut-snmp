@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor"
+  ],
+  "schedule": ["before 6am on monday"],
+  "timezone": "Europe/London",
+  "packageRules": [
+    {
+      "description": "Auto-merge Alpine base image updates",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["alpine"],
+      "automerge": true,
+      "automergeType": "pr"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track Alpine NUT package version",
+      "fileMatch": ["^Dockerfile$"],
+      "matchStrings": [
+        "FROM alpine:(?<currentValue>[\\d.]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "alpine"
+    }
+  ]
+}
