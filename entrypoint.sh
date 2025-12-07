@@ -68,50 +68,17 @@ sleep 5
 
 echo "=== Starting upsd ==="
 /usr/sbin/upsd -u root
-sleep 2
 
-# Generate webNUT config
-echo "=== Starting webNUT dashboard on port ${WEBNUT_PORT} ==="
-mkdir -p /etc/webnut
-cat > /etc/webnut/webnut.ini << EOF
-[app:main]
-use = egg:webNUT
+# Keep container running and forward signals
+echo "=== NUT Server running on port ${PORT} ==="
+echo "UPS available as: ${NAME}@localhost:${PORT}"
 
-pyramid.reload_templates = false
-pyramid.debug_authorization = false
-pyramid.debug_notfound = false
-pyramid.debug_routematch = false
-
-nut.host = localhost
-nut.port = ${PORT}
-
-[server:main]
-use = egg:waitress#main
-host = 0.0.0.0
-port = ${WEBNUT_PORT}
-
-[loggers]
-keys = root
-
-[handlers]
-keys = console
-
-[formatters]
-keys = generic
-
-[logger_root]
-level = INFO
-handlers = console
-
-[handler_console]
-class = StreamHandler
-args = (sys.stderr,)
-level = NOTSET
-formatter = generic
-
-[formatter_generic]
-format = %(asctime)s %(levelname)-5.5s [%(name)s] %(message)s
-EOF
-
-# Start webNUT in the foreground
-exec pserve /etc/webnut/webnut.ini
+# Wait indefinitely while upsd runs
+while true; do
+    # Check if upsd is still running
+    if ! pgrep -x upsd > /dev/null; then
+        echo "ERROR: upsd process died, exiting..."
+        exit 1
+    fi
+    sleep 30
+done
