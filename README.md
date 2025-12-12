@@ -1,6 +1,6 @@
 # nut-snmp
 
-Network UPS Tools (NUT) container with SNMP driver support and web dashboard.
+Network UPS Tools (NUT) container with SNMP driver support.
 
 Designed for network-connected UPS devices like APC with Network Card 2.
 
@@ -8,7 +8,6 @@ Designed for network-connected UPS devices like APC with Network Card 2.
 
 - **SNMP driver** (`snmp-ups`) for network-connected UPS
 - **NUT server** (`upsd`) on port 3493
-- **webNUT dashboard** on port 6543
 - Multi-arch support (amd64, arm64)
 
 ## Usage
@@ -20,7 +19,6 @@ docker run -d \
   -e NAME=apc \
   -e SNMP_COMMUNITY=public \
   -p 3493:3493 \
-  -p 6543:6543 \
   ghcr.io/lukeevanstach/nut-snmp:latest
 ```
 
@@ -38,12 +36,10 @@ docker run -d \
 | `PORT` | `3493` | NUT server port |
 | `API_USER` | `upsmon` | NUT API username |
 | `SECRET` | `secret` | NUT API password |
-| `WEBNUT_PORT` | `6543` | webNUT dashboard port |
 
 ## Ports
 
 - **3493**: NUT protocol (upsd)
-- **6543**: webNUT web dashboard
 
 ## Query UPS Status
 
@@ -76,6 +72,4 @@ service:
     ports:
       nut:
         port: 3493
-      web:
-        port: 6543
 ```

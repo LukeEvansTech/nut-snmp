@@ -18,5 +18,4 @@ services:
       SECRET: secret
     ports:
       - "3493:3493"
-      - "6543:6543"
     restart: unless-stopped
