@@ -2,7 +2,7 @@
 # NUT UPS Tools with SNMP support
 # Based on instantlinux/nut-upsd pattern
 
-FROM alpine:3.21
+FROM alpine:3.23
 
 LABEL org.opencontainers.image.title="nut-snmp" \
       org.opencontainers.image.description="Network UPS Tools with SNMP driver" \
